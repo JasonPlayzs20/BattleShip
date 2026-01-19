@@ -21,9 +21,12 @@ public class GameControler {
 
     //starts the game loop
     public void startGame() {
+        board.clear();
+        this.title();
         System.out.println("Game starting!");
 
         while (!isGameOver()) {
+//            System.out.println("ITS GAM ETIME");
             playTurn();
             switchTurns();
 
@@ -31,8 +34,16 @@ public class GameControler {
 
         endGame();
     }
+
+    public void title() {
+        System.out.println("========================================");
+        System.out.println("           BATTLESHIP: THE GRIND        ");
+        System.out.println("========================================");
+        sout();
+        sout();
+    }
     public void startSelectionPlayer1() {
-        /*
+       /*
         1, random selction to place ships
         2. arrowkeys to place
         3. repeat if needed
@@ -46,16 +57,22 @@ public class GameControler {
         int x = rand.nextInt(10);
         int y = rand.nextInt(10);
         while (true) {
+            this.title();
+
 //            System.out.println("in loop");
+
             this.board.tempBoard = this.board.getNewP1PlayingBoard();
 //            System.out.println("Test this.board");
 //            this.board.printP1Screen();
-            if (choice == ships.size()) {
-                this.board.setP1PlayingBoard(board.tempBoard);
+            if (choice >= ships.size()) {
+//                this.board.setP1PlayingBoard(board.tempBoard);
                 this.board.clearTempBoard();
                 break;
             }
-
+            System.out.println("Use: W,A,S,D to move your ship, Space or F to flip the ship, Nothing to secure it's position. ");
+            System.out.println("Please press ENTER after every command.");
+            System.out.println("If the ship does not flip, it can't be flipped at said location.");
+            System.out.println();
             if (ship == null) {
                 Orientation tempOr;
                 if (rand.nextInt(2) == 1) {
@@ -79,6 +96,8 @@ public class GameControler {
                     }
                 }
             }
+            System.out.println("You are now captaining the " + ship.shipType.toString());
+
 //            System.out.println("ship is not null");
 //            this.board.printP1Screen();
 
@@ -92,7 +111,8 @@ public class GameControler {
                 this.board.placeTemp(ship);
             } else {
 //                System.out.println("canmt pace");
-                scanner.nextLine();
+//                scanner.nextLine();
+                board.clear();
                 continue;
             }
 //            System.out.println("placed");
@@ -103,30 +123,32 @@ public class GameControler {
             this.board.printTempBoard();
             String inp = scanner.nextLine();
             if (inp.equalsIgnoreCase("")) {
-                this.board.place(ship, this.player1);
-                 this.player1.addShip(ship);
+                board.place(ship, player1);
+                this.player1.addShip(ship);
                 choice++;
                 x = rand.nextInt(10);
                 y = rand.nextInt(10);
                 ship = null;
+                this.board.clear();
                 continue;
             } else if (inp.equalsIgnoreCase("w")) {
                 ship.y--;
-                if (!this.board.canPlace(ship, this.player1)){ship.y++;continue;}
+                if (!this.board.canPlace(ship, this.player1)){ship.y++;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("a")) {
                 ship.x--;
-                if (!this.board.canPlace(ship, this.player1)){ship.x++;continue;}
+                if (!this.board.canPlace(ship, this.player1)){ship.x++;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("s")) {
                 ship.y++;
 //                System.out.println(ship.y + " " + ship.x);
-                if (!this.board.canPlace(ship, this.player1)){ship.y--;continue;}
+                if (!this.board.canPlace(ship, this.player1)){ship.y--;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("d")) {
                 ship.x++;
-                if (!this.board.canPlace(ship, this.player1)){ship.y--;continue;}
+                if (!this.board.canPlace(ship, this.player1)){ship.y--;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("f") || inp.equalsIgnoreCase(" ")) {
                 ship.orientation = ship.orientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL;
                 if (!this.board.canPlace(ship, this.player1)) {
                     ship.orientation = ship.orientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL;
+                    this.board.clear();
                 }
 
             }
@@ -158,7 +180,7 @@ public class GameControler {
     }
 
     public void startSelectionPlayer2() {
-        /*
+       /*
         1, random selction to place ships
         2. arrowkeys to place
         3. repeat if needed
@@ -172,16 +194,21 @@ public class GameControler {
         int x = rand.nextInt(10);
         int y = rand.nextInt(10);
         while (true) {
+            this.title();
 //            System.out.println("in loop");
+
             this.board.tempBoard = this.board.getNewP2PlayingBoard();
 //            System.out.println("Test this.board");
 //            this.board.printP2Screen();
             if (choice == ships.size()) {
-                this.board.setP2PlayingBoard(board.tempBoard);
+//                this.board.setP2PlayingBoard(board.tempBoard);
                 this.board.clearTempBoard();
                 break;
             }
-
+            System.out.println("Use: W,A,S,D to move your ship, Space or F to flip the ship, Nothing to secure it's position. ");
+            System.out.println("Please press ENTER after every command.");
+            System.out.println("If the ship does not flip, it can't be flipped at said location.");
+            System.out.println();
             if (ship == null) {
                 Orientation tempOr;
                 if (rand.nextInt(2) == 1) {
@@ -194,7 +221,7 @@ public class GameControler {
                 y = rand.nextInt(10);
                 ship = Ship.builder().setX(x).setY(y).setShipType(ships.get(choice)).setOrientation(tempOr).build();
                 while (true) {
-                    if (!board.canPlace(ship,  this.player2)) {
+                    if (!this.board.canPlace(ship,  this.player2)) {
 //                        this.board.placeTemp(ship);
                         x = rand.nextInt(10);
                         y = rand.nextInt(10);
@@ -205,6 +232,8 @@ public class GameControler {
                     }
                 }
             }
+            System.out.println("You are now captaining the " + ship.shipType.toString());
+
 //            System.out.println("ship is not null");
 //            this.board.printP2Screen();
 
@@ -214,11 +243,12 @@ public class GameControler {
 //            this.board.printP2Screen();
 
 //            System.out.println("x: " + x + " y: " + y);
-            if (board.canPlace(ship,  this.player2)) {
+            if (this.board.canPlace(ship,  this.player2)) {
                 this.board.placeTemp(ship);
             } else {
 //                System.out.println("canmt pace");
-                scanner.nextLine();
+//                scanner.nextLine();
+                board.clear();
                 continue;
             }
 //            System.out.println("placed");
@@ -229,29 +259,32 @@ public class GameControler {
             this.board.printTempBoard();
             String inp = scanner.nextLine();
             if (inp.equalsIgnoreCase("")) {
-                this.board.place(ship, this.player2);
+                board.place(ship, player2);
+                this.player2.addShip(ship);
                 choice++;
                 x = rand.nextInt(10);
                 y = rand.nextInt(10);
                 ship = null;
+                this.board.clear();
                 continue;
             } else if (inp.equalsIgnoreCase("w")) {
                 ship.y--;
-                if (!board.canPlace(ship, this.player2)){ship.y++;continue;}
+                if (!this.board.canPlace(ship, this.player2)){ship.y++;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("a")) {
                 ship.x--;
-                if (!board.canPlace(ship, this.player2)){ship.x++;continue;}
+                if (!this.board.canPlace(ship, this.player2)){ship.x++;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("s")) {
                 ship.y++;
 //                System.out.println(ship.y + " " + ship.x);
-                if (!board.canPlace(ship, this.player2)){ship.y--;continue;}
+                if (!this.board.canPlace(ship, this.player2)){ship.y--;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("d")) {
                 ship.x++;
-                if (!board.canPlace(ship, this.player2)){ship.y--;continue;}
+                if (!this.board.canPlace(ship, this.player2)){ship.y--;this.board.clear();continue;}
             } else if (inp.equalsIgnoreCase("f") || inp.equalsIgnoreCase(" ")) {
                 ship.orientation = ship.orientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL;
-                if (!board.canPlace(ship, this.player2)) {
+                if (!this.board.canPlace(ship, this.player2)) {
                     ship.orientation = ship.orientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL;
+                    this.board.clear();
                 }
 
             }
@@ -259,10 +292,10 @@ public class GameControler {
             y = ship.y;
 //            System.out.println("end");
 //            if (inp.equalsIgnoreCase("r")) {
-//                x = rand.nextInt(10);
+//                x = rand.nextInt(20);
 //                y = rand.nextInt(10);
 //                while (true) {
-//                    if (!board.canPlace(ship,  this.player2)) {
+//                    if (!board.canPlace(ship,  this.player1)) {
 ////                        this.board.placeTemp(ship);
 //                        x = rand.nextInt(10);
 //                        y = rand.nextInt(10);
@@ -284,16 +317,16 @@ public class GameControler {
     //one full turn
     public void playTurn() {
         System.out.println("\n" + currentPlayer.getName() + "'s turn");
-
-        //player attacks the other player
-        currentPlayer.attack(otherPlayer);
-        switchTurns();
-        //show opponent this.board AFTER attack)
         if (isPlayer1) {
             this.board.printP1Screen();
         } else  {
             this.board.printP2Screen();
         }
+        //player attacks the other player
+        currentPlayer.attack(otherPlayer);
+//        switchTurns();
+        //show opponent this.board AFTER attack)
+
 
     }
 
@@ -315,6 +348,57 @@ public class GameControler {
         System.out.println("\nGAME OVER!");
         System.out.println(currentPlayer.getName() + " wins!");
     }
+
+
+
+    public static void sout(String string) {
+        System.out.println(string);
+    }
+    public static void sout() {
+        System.out.println("");
+    }
+    public static void sout(boolean bool) {
+        System.out.println(bool);
+    }
+    public static void sout(double doub) {
+        System.out.println(doub);
+    }
+    public static void sout(float floa) {
+        System.out.println(floa);
+    }
+    public static void sout(int in) {
+        System.out.println(in);
+    }
+    public static void sout(char cha) {
+        System.out.println(cha);
+    }
+    public static void sout(long lon) {
+        System.out.println(lon);
+    }
+    public static void soul(String string) {
+        System.out.print(string);
+    }
+    public static void soul() {
+        System.out.print("");
+    }
+    public static void soul(int string) {
+        System.out.print(string);
+    }
+    public static void soul(double string) {
+        System.out.print(string);
+    }
+    public static void soul(char string) {
+        System.out.print(string);
+    }public static void soul(float string) {
+        System.out.print(string);
+    }
+    public static void soul(long string) {
+        System.out.print(string);
+    }
+    public static void soul(boolean string) {
+        System.out.print(string);
+    }
+
 
 
 

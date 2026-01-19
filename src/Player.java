@@ -68,10 +68,13 @@ public class Player {
         }
 
     }
-
+    public void addShip(Ship ship) {
+        this.ships.add(ship);
+    }
     //REQUIRED methods
     public void attack(Player opponent) {
         Scanner input = new Scanner(System.in);
+        System.out.println("\n" + this.name + ", PREPARE TO FIRE!");
 
         System.out.print("Enter row to attack (a-j): ");
         int row = Translation.translate(input.nextLine());
@@ -81,18 +84,17 @@ public class Player {
         input.nextLine();
 
 
-        //ask the board which ship is at this postion
-        boolean hit = false;
-        Ship target = opponent.getShipAt(row, col);
-        if(target != null){
+        Ship target = opponent.getShipAt(row, col);// hallo, the ship selection and placement is fully workin :D; yea finally lmao; lol;
+        boolean hit = (target != null);     //yo thats great man good stuff i was looking at it too and its working finally :), ikr it took so long smh
+
+        if(hit){
             target.hit();
-            hit = true;
-            System.out.println("Hit!");
+            sout("DIRECT HIT!"); // YAAAAAAA :); btw u want me to paste in the print libary, so you only need to type sout("something to print"); sure yeah can u do that ?; un de sec; its in. just type sout(), soul() = System.out.print();
             if(target.isSunk()){
-                System.out.println("You sunk a ship!");
+                sout("Target Neutralized: " + target.shipType + " SUNK!");
             }
-        } else {
-            System.out.println("Miss!");
+        }else{
+            sout("SPLASH... It's a miss.");
         }
 
         board.updateAfterAttack(row, col, this, opponent, hit);
@@ -120,28 +122,69 @@ public class Player {
 
     public Ship getShipAt(int row, int col){
         for(Ship s : ships){
+            for(int i = 0; i < s.getLength(); i++){
+                int shipX = (s.orientation == Orientation.HORIZONTAL) ? s.x + i : s.x;
+                int shipY = (s.orientation == Orientation.VERTICAL) ? s.y + i : s.y;
 
-            //chck each part of the ship
-            for(int i = 0 ; i < s.getLength(); i++){
-                int shipRow = s.y;
-                int shipCol = s.x;
-
-                if(s.orientation == Orientation.HORIZONTAL){
-                    shipCol += i;
-                } else {
-                    shipRow += i;
-                }
-
-                if(shipRow == row && shipCol == col){
-                    return s; // HIT FOUND
+                if(shipY == row && shipX == col){
+                    return s;
                 }
             }
-
         }
-        return null; //MISS
+        return null;
     }
 
-    public void addShip(Ship ship) {
-        this.ships.add(ship);
+
+
+    //print library
+    public static void sout(String string) {
+        System.out.println(string);
     }
+    public static void sout() {
+        System.out.println("");
+    }
+    public static void sout(boolean bool) {
+        System.out.println(bool);
+    }
+    public static void sout(double doub) {
+        System.out.println(doub);
+    }
+    public static void sout(float floa) {
+        System.out.println(floa);
+    }
+    public static void sout(int in) {
+        System.out.println(in);
+    }
+    public static void sout(char cha) {
+        System.out.println(cha);
+    }
+    public static void sout(long lon) {
+        System.out.println(lon);
+    }
+    public static void soul(String string) {
+        System.out.print(string);
+    }
+    public static void soul() {
+        System.out.print("");
+    }
+    public static void soul(int string) {
+        System.out.print(string);
+    }
+    public static void soul(double string) {
+        System.out.print(string);
+    }
+    public static void soul(char string) {
+        System.out.print(string);
+    }public static void soul(float string) {
+        System.out.print(string);
+    }
+    public static void soul(long string) {
+        System.out.print(string);
+    }
+    public static void soul(boolean string) {
+        System.out.print(string);
+    }
+
+
+
 }

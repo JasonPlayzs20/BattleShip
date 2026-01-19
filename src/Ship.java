@@ -34,6 +34,7 @@ public class Ship{
         public Builder setShipType(ShipType shipType) {
             this.shipType = shipType;
             this.length = this.shipType.length;
+            this.health = shipType.length;
             return this;
         }
 
@@ -72,6 +73,7 @@ public class Ship{
     }
 
 
+
     public int getLength(){
         return length;
     }
@@ -82,6 +84,10 @@ public class Ship{
 
     public boolean isSunk(){
         return sunk;
+    }
+
+    public ShipType shipType() {
+        return this.shipType;
     }
 
     public void hit(){

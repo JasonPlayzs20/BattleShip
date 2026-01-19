@@ -4,16 +4,16 @@ public class Translation {
             System.out.print("[] ");
         }
         if (status == Status.HIT) {
-            System.out.print("X ");
+            System.out.print(" X ");
         }
         if (status == Status.MISS) {
-            System.out.print("O ");
+            System.out.print(" O ");
         }
         if (status == Status.SUNK) {
-            System.out.print("- ");
+            System.out.print(" - ");
         }
         if (status == Status.BOAT) {
-            System.out.print("B ");
+            System.out.print(" B ");
         }
     }
 
@@ -22,16 +22,16 @@ public class Translation {
             return "[] ";
         }
         if (status == Status.HIT) {
-            return "X ";
+            return " X ";
         }
         if (status == Status.MISS) {
-            return "O ";
+            return " O ";
         }
         if (status == Status.SUNK) {
-            return "- ";
+            return " - ";
         }
         if (status == Status.BOAT) {
-            return "B ";
+            return " B ";
         }
         return null;
     }

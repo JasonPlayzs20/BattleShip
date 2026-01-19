@@ -70,9 +70,12 @@ public class Board {
         int length = ship.getLength();
         for (int i = 0; i < length; i++) {
             int shipX = ship.orientation == Orientation.HORIZONTAL ? ship.x + i : ship.x;
-            int shipY = ship.orientation == Orientation.HORIZONTAL ? ship.y : ship.y;
+            int shipY = ship.orientation == Orientation.HORIZONTAL ? ship.y : ship.y+i;
             if (player.id == 1) {
                 this.p1PlayingBoard.get(shipY).set(shipX, Status.BOAT);
+            }
+            if (player.id == 2) {
+                this.p2PlayingBoard.get(shipY).set(shipX, Status.BOAT);
             }
         }
     }
@@ -163,6 +166,8 @@ public class Board {
 
     public void printP2Screen() {
         System.out.println("      Player 2's Radar");
+//        System.out.println(getP2PlayingBoard());
+
 //        System.out.println();
         for (ArrayList<Status> row : this.p2ViewBoard) {
             for (Status status : row) {
@@ -173,6 +178,7 @@ public class Board {
         System.out.println();
         System.out.println("      Player 2's Ocean");
 //        System.out.println();
+
         for (ArrayList<Status> row : this.p2PlayingBoard) {
             for (Status status : row) {
                 Translation.printTranslated(status);
