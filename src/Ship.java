@@ -6,7 +6,7 @@ public class Ship{
     private int health;
     private boolean sunk;
     private Status status;
-    final Orientation orientation;
+    Orientation orientation;
 
     public Ship(Builder builder){
         this.shipType = builder.shipType;
@@ -64,6 +64,7 @@ public class Ship{
 
         public Ship build() {
             if (shipType == null || length < 0 || health < 0 || orientation == null) {
+
                 throw new IllegalArgumentException("Construction Terminated: After careful and methodical verification of all provided parameters, the vessel has been declared non-constructible, as its proposed configuration does not adhere to the mandatory constraints, placement rules, and structural requirements prescribed by the governing construction framework."); // dont worry about this :)
             }
             return new Ship(this);
