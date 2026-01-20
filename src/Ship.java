@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Ship{
     final ShipType shipType;
     int y;
@@ -7,6 +10,7 @@ public class Ship{
     private boolean sunk;
     private Status status;
     Orientation orientation;
+    ArrayList<Integer[]> locations;
 
     public Ship(Builder builder){
         this.shipType = builder.shipType;
@@ -17,10 +21,24 @@ public class Ship{
         this.status = Status.BOAT;
         this.x = builder.x;
         this.y = builder.y;
+        this.locations = new ArrayList<>();
     }
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public boolean isShip(Integer[] location){
+//        for(Integer[] loc : locations){
+//            System.out.print(Arrays.toString(loc) + " ");
+//        }
+////        System.out.println(Arrays.toString(this.locations.toArray()));
+//        System.out.println();
+//        System.out.println(Arrays.toString(location));
+        for(Integer[] loc : locations){
+            if(loc[0].equals(location[1]) && loc[1].equals(location[0])) return true;
+        }
+        return false;
     }
 
     public static class Builder {

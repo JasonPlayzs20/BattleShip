@@ -22,20 +22,26 @@ public class GameControler {
     //starts the game loop
     public void startGame() {
         board.clear();
-        this.title();
+        title();
         System.out.println("Game starting!");
 
         while (!isGameOver()) {
 //            System.out.println("ITS GAM ETIME");
             playTurn();
+            if (isGameOver()) {
+                board.clear();
+                endGame();
+                break;
+            }
+            Scanner scanner = new Scanner(System.in);
+            scanner.nextLine();
             switchTurns();
-
         }
 
-        endGame();
+//        endGame();
     }
 
-    public void title() {
+    public static void title() {
         System.out.println("========================================");
         System.out.println("           BATTLESHIP: THE GRIND        ");
         System.out.println("========================================");
@@ -316,6 +322,8 @@ public class GameControler {
     }
     //one full turn
     public void playTurn() {
+        board.clear();
+        GameControler.title();
         System.out.println("\n" + currentPlayer.getName() + "'s turn");
         if (isPlayer1) {
             this.board.printP1Screen();
@@ -324,6 +332,10 @@ public class GameControler {
         }
         //player attacks the other player
         currentPlayer.attack(otherPlayer);
+//        if (isGameOver()) {
+//            endGame();
+//        }
+
 //        switchTurns();
         //show opponent this.board AFTER attack)
 
@@ -340,11 +352,32 @@ public class GameControler {
 
     //checks win condition
     private boolean isGameOver() {
-        return otherPlayer.getTotalShipsLeft() == 0;
+        if (otherPlayer.id == 1) {
+            for (ArrayList<Status> statuses : board.getP1PlayingBoard()) {
+                for (Status status : statuses) {
+                    if (status.equals(Status.BOAT)) {
+
+                        return false;
+                    }
+                }
+            }
+
+        }
+        else if (otherPlayer.id == 2) {
+            for (ArrayList<Status> statuses : board.getP2PlayingBoard()) {
+                for (Status status : statuses) {
+                    if (status.equals(Status.BOAT)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     //ends the game
     public void endGame() {
+        GameControler.title();
         System.out.println("\nGAME OVER!");
         System.out.println(currentPlayer.getName() + " wins!");
     }

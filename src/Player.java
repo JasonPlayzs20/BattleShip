@@ -76,28 +76,68 @@ public class Player {
         Scanner input = new Scanner(System.in);
         System.out.println("\n" + this.name + ", PREPARE TO FIRE!");
 
-        System.out.print("Enter row to attack (a-j): ");
-        int row = Translation.translate(input.nextLine());
+        int row;
+        int col;
 
-        System.out.print("Enter column to attack (0-9): ");
-        int col = input.nextInt();
-        input.nextLine();
+        do {
+            System.out.print("Enter row to attack (a-j): ");
+            row = Translation.translate(input.nextLine());
+        } while (row == -1);
+
+        do {
+            System.out.print("Enter column to attack (0-9): ");
+            while (!input.hasNextInt()) {
+                input.next();
+            }
+            col = input.nextInt();
+            input.nextLine();
+        } while (col < 0 || col > 9);
 
 
         Ship target = opponent.getShipAt(row, col);// hallo, the ship selection and placement is fully workin :D; yea finally lmao; lol;
         boolean hit = (target != null);     //yo thats great man good stuff i was looking at it too and its working finally :), ikr it took so long smh
 
-        if(hit){
-            target.hit();
-            sout("DIRECT HIT!"); // YAAAAAAA :); btw u want me to paste in the print libary, so you only need to type sout("something to print"); sure yeah can u do that ?; un de sec; its in. just type sout(), soul() = System.out.print();
-            if(target.isSunk()){
-                sout("Target Neutralized: " + target.shipType + " SUNK!");
+        for (Ship ship : opponent.ships) {
+            Integer[] loc = {row, col};
+            if (ship.isShip(loc)) {
+                target = ship;
+                target.hit();
+                sout("DIRECT HIT!"); // YAAAAAAA :); btw u want me to paste in the print libary, so you only need to type sout("something to print"); sure yeah can u do that ?; un de sec; its in. just type sout(), soul() = System.out.print();
+                if(target.isSunk()){
+                    System.out.println("Target Neutralized: " + target.shipType + " SUNK!");
+                }
+                board.updateAfterAttack(row, col, this, opponent, hit);
+                System.out.println("Here is your damage.");
+                if (this.id == 1){
+                    board.printP1Screen();
+                }else{
+                    board.printP2Screen();
+                }
+
+                return;
             }
-        }else{
-            sout("SPLASH... It's a miss.");
         }
+        System.out.println("SPLASH... It's a miss.");
+
+//        if(hit){
+//            target.hit();
+//            sout("DIRECT HIT!"); // YAAAAAAA :); btw u want me to paste in the print libary, so you only need to type sout("something to print"); sure yeah can u do that ?; un de sec; its in. just type sout(), soul() = System.out.print();
+//            if(target.isSunk()){
+//                sout("Target Neutralized: " + target.shipType + " SUNK!");
+//            }
+//        }else{
+//        }
 
         board.updateAfterAttack(row, col, this, opponent, hit);
+//        board.clear();
+//        GameControler.title();
+        System.out.println("Here is your damage.");
+        if (this.id == 1){
+            board.printP1Screen();
+        }else{
+            board.printP2Screen();
+        }
+
     }
 
 

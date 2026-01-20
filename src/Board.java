@@ -71,6 +71,8 @@ public class Board {
         for (int i = 0; i < length; i++) {
             int shipX = ship.orientation == Orientation.HORIZONTAL ? ship.x + i : ship.x;
             int shipY = ship.orientation == Orientation.HORIZONTAL ? ship.y : ship.y+i;
+            Integer[] loc = {shipX, shipY};
+            ship.locations.add(loc);
             if (player.id == 1) {
                 this.p1PlayingBoard.get(shipY).set(shipX, Status.BOAT);
             }
@@ -227,11 +229,11 @@ public class Board {
             defenderBoard.get(row).set(col, Status.MISS);
         }
 
-        clear();
-        if(attacker.id == 1){
-            printP1Screen();
-        }else{
-            printP2Screen();
-        }
+//        clear();
+//        if(attacker.id == 1){
+//            printP1Screen();
+//        }else{
+//            printP2Screen();
+//        }
     }
 }
